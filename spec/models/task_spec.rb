@@ -10,17 +10,20 @@ RSpec.describe Task, type: :model do
     it 'is invalid without title' do 
       task_without_title = FactoryBot.build(:task, title: '')
       expect(task_without_title).to be_invalid
+      expect(task_without_title.errors[:title]).to eq ["can't be blank"]
     end
 
     it 'is invalid without status' do
       task_without_status = FactoryBot.build(:task, status: nil)
       expect(task_without_status).to be_invalid
+      expect(task_without_status.errors[:status]).to eq ["can't be blank"]
     end
 
     it 'is invalid with a duplicate title' do 
       task = FactoryBot.create(:task)
       task_duplicate_title = FactoryBot.build(:task, title: task.title)
       expect(task_duplicate_title).to be_invalid
+      expect(task_duplicate_title.errors[:title]).to eq ["has already been taken"]
     end
 
     it 'is valid with another title' do 
